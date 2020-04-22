@@ -1,59 +1,63 @@
-import React from 'react'
-import { Link, StaticQuery, graphql } from 'gatsby'
-import github from '../img/github-icon.svg'
+import React, { Children } from 'react'
+import { Link, graphql } from 'gatsby'
 import logo from '../img/logo.svg'
 
-const Navbar = () => (
-  <StaticQuery
-    query={graphql`
-      query {
-        allWordpressPage(sort: { fields: wordpress_id }, limit: 5) {
-          edges {
-            node {
-              title
-              slug
-            }
-          }
-        }
-      }
-    `}
-    render={data => (
-      <nav className="navbar is-transparent">
-        <div className="container">
-          <div className="navbar-brand">
-            <Link to="/" className="navbar-item">
-              <figure className="image">
-                <img src={logo} alt="Kaldi" style={{ width: '88px' }} />
-              </figure>
-            </Link>
-          </div>
-          <div className="navbar-start">
-            {data.allWordpressPage.edges.map(edge => (
-              <Link
-                className="navbar-item"
-                to={edge.node.slug}
-                key={edge.node.slug}
-              >
-                {edge.node.title}
-              </Link>
-            ))}
-          </div>
-          <div className="navbar-end">
-            <a
-              className="navbar-item"
-              href="https://github.com/GatsbyCentral/gatsby-starter-wordpress"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span className="icon">
-                <img src={github} alt="Github" />
-              </span>
-            </a>
-          </div>
-        </div>
-      </nav>
-    )}
-  />
+const NavbarItem = props => (
+  <Link className="navbar-item is-capitalized" to={props.page}>
+    {props.pagename}
+  </Link>
+)
+const NavbarBurger = props => (
+  <div id="icon2"
+    onClick={props.toggleMenu}
+    className={`navbar-burger burger ${props.active ? 'open' : ''}`}
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 )
 
-export default Navbar
+
+
+
+export default class Navbar extends React.Component {
+  state = {
+    activeMenu: false,
+  }
+  
+  toggleMenu = () => {
+    this.setState({
+      activeMenu: !this.state.activeMenu,
+    })
+  }
+
+  render(){
+      return(
+        <nav className="navbar is-transparent">
+          <div className="container">
+            <div className="navbar-brand">
+              <Link to="/" className="navbar-item">
+                <figure className="image">
+                  <img src={logo} alt="Kaldi" style={{ width: '88px' }} />
+                </figure>
+              </Link>
+            </div>
+            <div className="navbar-start">
+             
+            </div>         
+          </div>
+        </nav>
+        )
+      }
+}
+
+    
+
+
